@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  build:
+    commands:
+      - echo "Zipping the lambda code..."
+      - zip function.zip lambda_function.py
+
+artifacts:
+  files:
+    - function.zip
+
+post_build:
+  commands:
+    - echo "Deploying to Lambda..."
+    - aws lambda update-function-code --function-name CodeBuildTest --zip-file fileb://function.zip
